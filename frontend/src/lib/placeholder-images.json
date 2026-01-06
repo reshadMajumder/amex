@@ -1,0 +1,130 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "A sprawling logistics hub at dusk with city lights in the background.",
+      "imageUrl": "https://www.sf-express.com/uploads/4086x1466_en_6e52dfe06e.jpg",
+      "imageHint": "logistics express"
+    },
+    {
+      "id": "hero-person",
+      "description": "A delivery person holding a package in front of a truck.",
+      "imageUrl": "https://images.pexels.com/photos/7362960/pexels-photo-7362960.jpeg",
+      "imageHint": "delivery person"
+    },
+    {
+      "id": "hero-element-1",
+      "description": "A floating cardboard box.",
+      "imageUrl": "https://images.unsplash.com/photo-1740842028123-56fd319de33a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjYXJkYm9hcmQlMjBib3h8ZW58MHx8fHwxNzY3NDI4OTAxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cardboard box"
+    },
+    {
+      "id": "hero-element-2",
+      "description": "A floating package with shipping labels.",
+      "imageUrl": "https://images.unsplash.com/photo-1577702312572-5bb9328a9f15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzaGlwcGluZyUyMHBhY2thZ2V8ZW58MHx8fHwxNzY3NTI2MzI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "shipping package"
+    },
+    {
+      "id": "hero-element-3",
+      "description": "A floating abstract UI element representing data.",
+      "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkYXRhJTIwZ3JhcGh8ZW58MHx8fHwxNzY3NTI2MzI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "data graph"
+    },
+    {
+      "id": "enterprise-bg",
+      "description": "Warehouse with shelves full of boxes being moved by a robot.",
+      "imageUrl": "https://images.pexels.com/photos/7843986/pexels-photo-7843986.jpeg",
+      "imageHint": "warehouse robot"
+    },
+    {
+      "id": "supply-chain-telecom",
+      "description": "Close up of a server rack with many cables.",
+      "imageUrl": "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "server rack"
+    },
+    {
+      "id": "supply-chain-fresh-food",
+      "description": "A close-up of a variety of fresh vegetables.",
+      "imageUrl": "https://images.pexels.com/photos/277253/pexels-photo-277253.jpeg",
+      "imageHint": "fresh food"
+    },
+    {
+      "id": "supply-chain-household",
+      "description": "A modern kitchen with new appliances.",
+      "imageUrl": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "modern kitchen"
+    },
+    {
+      "id": "supply-chain-garment",
+      "description": "A rack of colorful clothes in a store.",
+      "imageUrl": "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "clothes rack"
+    },
+    {
+      "id": "supply-chain-consumer",
+      "description": "A supermarket aisle with shelves full of products.",
+      "imageUrl": "https://images.unsplash.com/photo-1543168256-418811576931?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "supermarket aisle"
+    },
+    {
+      "id": "supply-chain-health",
+      "description": "A lab technician holding a test tube.",
+      "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib_rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "medical lab"
+    },
+    {
+      "id": "supply-chain-ecommerce",
+      "description": "A person holding a shopping bag with an online shopping interface in the background.",
+      "imageUrl": "https://images.pexels.com/photos/5632397/pexels-photo-5632397.jpeg",
+      "imageHint": "e-commerce shopping"
+    },
+    {
+      "id": "supply-chain-auto",
+      "description": "A close-up of a clean, customized car engine.",
+      "imageUrl": "https://images.pexels.com/photos/159293/car-engine-motor-clean-customized-159293.jpeg",
+      "imageHint": "car engine"
+    },
+    {
+      "id": "supply-chain-finance",
+      "description": "A hand putting a coin into a piggy bank.",
+      "imageUrl": "https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg",
+      "imageHint": "finance savings"
+    },
+    {
+      "id": "supply-chain-gov",
+      "description": "A gavel and law books on a table.",
+      "imageUrl": "https://images.pexels.com/photos/5668484/pexels-photo-5668484.jpeg",
+      "imageHint": "legal government"
+    },
+    {
+      "id": "stat-vehicles",
+      "description": "A fleet of white delivery trucks lined up.",
+      "imageUrl": "https://images.unsplash.com/photo-1588998244586-a739b8170b02?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "delivery trucks"
+    },
+    {
+      "id": "stat-routes",
+      "description": "An aerial view of a complex highway interchange at night.",
+      "imageUrl": "https://images.unsplash.com/photo-1547027986-5326463a5665?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%•3D",
+      "imageHint": "highway interchange"
+    },
+    {
+      "id": "stat-aircraft",
+      "description": "A cargo plane being loaded with packages at an airport.",
+      "imageUrl": "https://images.unsplash.com/photo-1606764519920-a636435a6f44?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "cargo plane"
+    },
+    {
+      "id": "stat-flights",
+      "description": "An airport departure board showing many flight statuses.",
+      "imageUrl": "https://images.unsplash.com/photo-1549924233-3885973af3d0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "airport board"
+    },
+    {
+      "id": "stat-points",
+      "description": "A logistics warehouse with workers and packages.",
+      "imageUrl": "https://images.unsplash.com/photo-1586528116311-06924219dec1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "logistics warehouse"
+    }
+  ]
+}
