@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -15,7 +16,7 @@ import {
 import { AmexLogo } from "@/components/icons/amex-logo";
 
 const mainNavLinks = [
-  { name: "Home", href: "#" },
+  { name: "Home", href: "/" },
   { name: "Services & Solutions", href: "#" },
   { name: "Supply Chain Solutions", href: "#" },
   { name: "Service & Support", href: "#" },
@@ -23,7 +24,7 @@ const mainNavLinks = [
 
 const secondaryNavLinks = [
   { name: "About", href: "#" },
-  { name: "Log In", href: "#" },
+  { name: "Log In", href: "/login" },
   { name: "Register", href: "#" },
 ];
 

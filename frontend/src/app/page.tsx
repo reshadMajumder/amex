@@ -7,6 +7,7 @@ import { ServicesSection } from "@/components/ServicesSection";
 import { SupplyChainSection } from "@/components/SupplyChainSection";
 import { Footer } from "@/components/Footer";
 import { BusinessStrength } from "@/components/BusinessStrength";
+import { WhyChooseUsSection } from "@/components/WhyChooseUsSection";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <ServicesSection />
         <SupplyChainSection />
         <BusinessStrength />
+        <WhyChooseUsSection />
       </div>
       <FloatingActions />
       <Footer />

@@ -74,9 +74,9 @@
     },
     {
       "id": "supply-chain-ecommerce",
-      "description": "A person holding a shopping bag with an online shopping interface in the background.",
+      "description": "Person holding a shopping bag with an online shopping interface in the background.",
       "imageUrl": "https://images.pexels.com/photos/5632397/pexels-photo-5632397.jpeg",
-      "imageHint": "e-commerce shopping"
+      "imageHint": "ecommerce shopping"
     },
     {
       "id": "supply-chain-auto",
@@ -125,6 +125,30 @@
       "description": "A logistics warehouse with workers and packages.",
       "imageUrl": "https://images.unsplash.com/photo-1586528116311-06924219dec1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "logistics warehouse"
+    },
+    {
+      "id": "why-reliability",
+      "description": "A person receiving a package and signing for it.",
+      "imageUrl": "https://images.pexels.com/photos/4391470/pexels-photo-4391470.jpeg",
+      "imageHint": "package delivery"
+    },
+    {
+      "id": "why-technology",
+      "description": "A futuristic interface showing a world map with logistics routes.",
+      "imageUrl": "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
+      "imageHint": "logistics technology"
+    },
+    {
+      "id": "why-support",
+      "description": "A friendly customer support agent with a headset on.",
+      "imageUrl": "https://images.pexels.com/photos/5439427/pexels-photo-5439427.jpeg",
+      "imageHint": "customer support"
+    },
+    {
+      "id": "why-global",
+      "description": "A cargo ship on the ocean with shipping containers.",
+      "imageUrl": "https://images.pexels.com/photos/163784/pexels-photo-163784.jpeg",
+      "imageHint": "cargo ship"
     }
   ]
 }
