@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, PackagePlus, Paperclip, Truck } from 'lucide-react';
+import { ArrowLeft, PackagePlus, Paperclip, Truck, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -12,11 +12,39 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
-import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
+const paymentIsOverdue = false;
+
+const savedDestinations = [
+  {
+    id: '1',
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    phone: '+1 (123) 456-7890',
+    address: '123 Main St, New York, NY 10001',
+  },
+  {
+    id: '2',
+    name: 'Jane Smith',
+    email: 'jane.smith@example.com',
+    phone: '+44 20 7946 0958',
+    address: '456 High St, London, UK SW1A 0AA',
+  },
+  {
+    id: '3',
+    name: 'Kenji Tanaka',
+    email: 'kenji.tanaka@example.jp',
+    phone: '+81 3-1234-5678',
+    address: '789 Sakura Ave, Tokyo, Japan 100-0001',
+  },
+];
+
 
 export default function NewShipmentPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const [selectedDestination, setSelectedDestination] = useState<string>('');
 
   // Using a single state object to hold all form data
   const [formData, setFormData] = useState({
@@ -31,6 +59,7 @@ export default function NewShipmentPage() {
     recipientName: '',
     recipientCompany: '',
     recipientAddress: '',
+    recipientPostCode: '',
     recipientPhone: '',
     recipientEmail: '',
 
@@ -58,12 +87,50 @@ export default function NewShipmentPage() {
     setFormData(prev => ({ ...prev, [id]: value }));
   };
 
+  const handleDestinationChange = (destinationId: string) => {
+    setSelectedDestination(destinationId);
+
+    if (destinationId === 'new' || !destinationId) {
+        setFormData(prev => ({
+            ...prev,
+            recipientName: '',
+            recipientCompany: '',
+            recipientAddress: '',
+            recipientPhone: '',
+            recipientEmail: '',
+            recipientPostCode: '',
+        }));
+    } else {
+        const dest = savedDestinations.find(d => d.id === destinationId);
+        if (dest) {
+            setFormData(prev => ({
+                ...prev,
+                recipientName: dest.name,
+                recipientCompany: '', // Assuming no company data in mock
+                recipientAddress: dest.address,
+                recipientPhone: dest.phone,
+                recipientEmail: dest.email,
+                recipientPostCode: '',
+            }));
+        }
+    }
+  };
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (paymentIsOverdue) {
+        toast({
+            variant: 'destructive',
+            title: 'Action Required',
+            description: 'Cannot create shipment while payment is overdue.',
+        });
+        return;
+    }
+
     const requiredFields: (keyof typeof formData)[] = [
-        'recipientName', 'recipientAddress', 'recipientPhone', 'recipientEmail',
+        'recipientName', 'recipientAddress', 'recipientPostCode', 'recipientPhone', 'recipientEmail',
         'weight', 'length', 'width', 'height', 'declaredValue',
         'contentsDescription', 'countryOfOrigin'
     ];
@@ -99,136 +166,170 @@ export default function NewShipmentPage() {
           </Link>
         </Button>
       </div>
+
+       {paymentIsOverdue && (
+          <Alert variant="destructive" className="mb-8">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>New Shipments Disabled</AlertTitle>
+             <div className="flex items-center justify-between">
+                <AlertDescription>
+                    You have an overdue balance on your account. Please settle the payment to resume creating new shipments.
+                </AlertDescription>
+                 <Button variant="secondary" onClick={() => router.push('/dashboard')}>Go to Dashboard</Button>
+            </div>
+          </Alert>
+      )}
       
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Sender & Recipient */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Sender */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Sender Details</CardTitle>
-                    <CardDescription>This is pre-filled from your profile.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <p className="font-semibold">{formData.senderName} - {formData.senderCompany}</p>
-                    <p className="text-sm text-gray-600">{formData.senderAddress}</p>
-                    <p className="text-sm text-gray-600">{formData.senderEmail} | {formData.senderPhone}</p>
-                </CardContent>
-            </Card>
+        <fieldset disabled={paymentIsOverdue} className="space-y-8 group">
+            {/* Sender & Recipient */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Sender */}
+                <Card className="group-disabled:opacity-50">
+                    <CardHeader>
+                        <CardTitle>Sender Details</CardTitle>
+                        <CardDescription>This is pre-filled from your profile.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <p className="font-semibold">{formData.senderName} - {formData.senderCompany}</p>
+                        <p className="text-sm text-gray-600">{formData.senderAddress}</p>
+                        <p className="text-sm text-gray-600">{formData.senderEmail} | {formData.senderPhone}</p>
+                    </CardContent>
+                </Card>
 
-            {/* Recipient */}
-            <Card>
-                 <CardHeader>
-                    <CardTitle>Recipient Details</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                {/* Recipient */}
+                <Card className="group-disabled:opacity-50">
+                     <CardHeader>
+                        <CardTitle>Recipient Details</CardTitle>
+                        <CardDescription>Select a saved destination or enter new details below.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="recipientName">Full Name</Label>
-                            <Input id="recipientName" value={formData.recipientName} onChange={handleChange} placeholder="Jane Smith" />
-                        </div>
-                         <div className="space-y-2">
-                            <Label htmlFor="recipientCompany">Company (Optional)</Label>
-                            <Input id="recipientCompany" value={formData.recipientCompany} onChange={handleChange} placeholder="Recipient Corp." />
-                        </div>
-                    </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="recipientAddress">Full Address</Label>
-                        <Textarea id="recipientAddress" value={formData.recipientAddress} onChange={handleChange} placeholder="123 International Blvd, London, UK, SW1A 0AA" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="recipientPhone">Phone</Label>
-                            <Input id="recipientPhone" type="tel" value={formData.recipientPhone} onChange={handleChange} placeholder="+44 20 7946 0958" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="recipientEmail">Email</Label>
-                            <Input id="recipientEmail" type="email" value={formData.recipientEmail} onChange={handleChange} placeholder="jane.s@example.co.uk" />
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
-        
-        {/* Package & Customs */}
-        <Card>
-            <CardHeader>
-                <CardTitle>Shipment Details</CardTitle>
-                <CardDescription>Provide details about the package and its contents for customs.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Package Details */}
-                    <div className="space-y-4 p-6 border rounded-lg">
-                        <h3 className="font-semibold text-lg flex items-center"><PackagePlus className="mr-2 h-5 w-5 text-primary" />Package Details</h3>
-                        <div className="space-y-2">
-                            <Label htmlFor="serviceType">Service Type</Label>
-                            <Select onValueChange={(v) => handleSelectChange('serviceType', v)} defaultValue={formData.serviceType}>
-                                <SelectTrigger id="serviceType"><SelectValue placeholder="Select service" /></SelectTrigger>
+                            <Label htmlFor="destinationSelect">Saved Destinations</Label>
+                            <Select onValueChange={handleDestinationChange} value={selectedDestination}>
+                                <SelectTrigger id="destinationSelect">
+                                    <SelectValue placeholder="Choose a destination..." />
+                                </SelectTrigger>
                                 <SelectContent>
-                                <SelectItem value="express">International Express</SelectItem>
-                                <SelectItem value="standard">International Standard</SelectItem>
-                                <SelectItem value="economy">International Economy</SelectItem>
+                                    <SelectItem value="new">-- Enter New Destination --</SelectItem>
+                                    {savedDestinations.map(dest => (
+                                        <SelectItem key={dest.id} value={dest.id}>{dest.name} - {dest.address}</SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="weight">Total Weight (kg)</Label>
-                                <Input id="weight" type="number" value={formData.weight} onChange={handleChange} placeholder="2.5" />
+                                <Label htmlFor="recipientName">Full Name</Label>
+                                <Input id="recipientName" value={formData.recipientName} onChange={handleChange} placeholder="Jane Smith" />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="declaredValue">Declared Value ($)</Label>
-                                <Input id="declaredValue" type="number" value={formData.declaredValue} onChange={handleChange} placeholder="150.00" />
+                             <div className="space-y-2">
+                                <Label htmlFor="recipientCompany">Company (Optional)</Label>
+                                <Input id="recipientCompany" value={formData.recipientCompany} onChange={handleChange} placeholder="Recipient Corp." />
                             </div>
                         </div>
-                        <div className="space-y-2">
-                             <Label>Dimensions (cm)</Label>
-                             <div className="grid grid-cols-3 gap-4">
-                                <Input id="length" type="number" value={formData.length} onChange={handleChange} placeholder="Length" />
-                                <Input id="width" type="number" value={formData.width} onChange={handleChange} placeholder="Width" />
-                                <Input id="height" type="number" value={formData.height} onChange={handleChange} placeholder="Height" />
-                             </div>
+                         <div className="space-y-2">
+                            <Label htmlFor="recipientAddress">Full Address</Label>
+                            <Textarea id="recipientAddress" value={formData.recipientAddress} onChange={handleChange} placeholder="123 International Blvd, London, UK, SW1A 0AA" />
                         </div>
-                    </div>
-
-                    {/* Customs Information */}
-                     <div className="space-y-4 p-6 border rounded-lg">
-                        <h3 className="font-semibold text-lg flex items-center"><Paperclip className="mr-2 h-5 w-5 text-primary" />Customs Information</h3>
-                        <div className="space-y-2">
-                            <Label htmlFor="contentsDescription">Detailed Description of Contents</Label>
-                            <Textarea id="contentsDescription" value={formData.contentsDescription} onChange={handleChange} placeholder="e.g., 2 men's cotton t-shirts, 1 pair of leather shoes" />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="hsCode">HS Code (Optional)</Label>
-                                <Input id="hsCode" value={formData.hsCode} onChange={handleChange} placeholder="e.g., 610910" />
+                                <Label htmlFor="recipientPhone">Phone</Label>
+                                <Input id="recipientPhone" type="tel" value={formData.recipientPhone} onChange={handleChange} placeholder="+44 20 7946 0958" />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="countryOfOrigin">Country of Origin</Label>
-                                <Select onValueChange={(v) => handleSelectChange('countryOfOrigin', v)} defaultValue={formData.countryOfOrigin}>
-                                    <SelectTrigger id="countryOfOrigin"><SelectValue placeholder="Select country" /></SelectTrigger>
+                                <Label htmlFor="recipientEmail">Email</Label>
+                                <Input id="recipientEmail" type="email" value={formData.recipientEmail} onChange={handleChange} placeholder="jane.s@example.co.uk" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="recipientPostCode">Post Code</Label>
+                                <Input id="recipientPostCode" value={formData.recipientPostCode} onChange={handleChange} placeholder="e.g. 90210" />
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+            
+            {/* Package & Customs */}
+            <Card className="group-disabled:opacity-50">
+                <CardHeader>
+                    <CardTitle>Shipment Details</CardTitle>
+                    <CardDescription>Provide details about the package and its contents for customs.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Package Details */}
+                        <div className="space-y-4 p-6 border rounded-lg">
+                            <h3 className="font-semibold text-lg flex items-center"><PackagePlus className="mr-2 h-5 w-5 text-primary" />Package Details</h3>
+                            <div className="space-y-2">
+                                <Label htmlFor="serviceType">Service Type</Label>
+                                <Select onValueChange={(v) => handleSelectChange('serviceType', v)} defaultValue={formData.serviceType}>
+                                    <SelectTrigger id="serviceType"><SelectValue placeholder="Select service" /></SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="USA">USA</SelectItem>
-                                        <SelectItem value="UK">United Kingdom</SelectItem>
-                                        <SelectItem value="Japan">Japan</SelectItem>
-                                        <SelectItem value="Germany">Germany</SelectItem>
-                                        <SelectItem value="China">China</SelectItem>
+                                    <SelectItem value="express">International Express</SelectItem>
+                                    <SelectItem value="standard">International Standard</SelectItem>
+                                    <SelectItem value="economy">International Economy</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="weight">Total Weight (kg)</Label>
+                                    <Input id="weight" type="number" value={formData.weight} onChange={handleChange} placeholder="2.5" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="declaredValue">Declared Value ($)</Label>
+                                    <Input id="declaredValue" type="number" value={formData.declaredValue} onChange={handleChange} placeholder="150.00" />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                 <Label>Dimensions (cm)</Label>
+                                 <div className="grid grid-cols-3 gap-4">
+                                    <Input id="length" type="number" value={formData.length} onChange={handleChange} placeholder="Length" />
+                                    <Input id="width" type="number" value={formData.width} onChange={handleChange} placeholder="Width" />
+                                    <Input id="height" type="number" value={formData.height} onChange={handleChange} placeholder="Height" />
+                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Customs Information */}
+                         <div className="space-y-4 p-6 border rounded-lg">
+                            <h3 className="font-semibold text-lg flex items-center"><Paperclip className="mr-2 h-5 w-5 text-primary" />Customs Information</h3>
+                            <div className="space-y-2">
+                                <Label htmlFor="contentsDescription">Detailed Description of Contents</Label>
+                                <Textarea id="contentsDescription" value={formData.contentsDescription} onChange={handleChange} placeholder="e.g., 2 men's cotton t-shirts, 1 pair of leather shoes" />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="hsCode">HS Code (Optional)</Label>
+                                    <Input id="hsCode" value={formData.hsCode} onChange={handleChange} placeholder="e.g., 610910" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="countryOfOrigin">Country of Origin</Label>
+                                    <Select onValueChange={(v) => handleSelectChange('countryOfOrigin', v)} defaultValue={formData.countryOfOrigin}>
+                                        <SelectTrigger id="countryOfOrigin"><SelectValue placeholder="Select country" /></SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="USA">USA</SelectItem>
+                                            <SelectItem value="UK">United Kingdom</SelectItem>
+                                            <SelectItem value="Japan">Japan</SelectItem>
+                                            <SelectItem value="Germany">Germany</SelectItem>
+                                            <SelectItem value="China">China</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </CardContent>
-        </Card>
+                </CardContent>
+            </Card>
+        </fieldset>
 
         <div className="flex justify-end gap-2 pt-4">
             <Button variant="outline" type="button" onClick={() => router.push('/dashboard/shipments')}>
                 Cancel
             </Button>
-            <Button type="submit" size="lg">
+            <Button type="submit" size="lg" disabled={paymentIsOverdue}>
                 <Truck className="mr-2 h-5 w-5" />
                 Create & Ship
             </Button>
@@ -237,3 +338,5 @@ export default function NewShipmentPage() {
     </div>
   );
 }
+
+    

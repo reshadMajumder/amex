@@ -1,3 +1,4 @@
+
 "use client";
 import { useState } from "react";
 import {
@@ -17,6 +18,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Link from "next/link";
+import { Card } from "@/components/ui/card";
 
 const solutions = [
   {
@@ -101,7 +103,35 @@ export function SupplyChainSection() {
           Industry-specific Supply Chain Solutions
         </h2>
 
-        <div className="relative rounded-2xl shadow-lg overflow-hidden h-[65vh] bg-gray-800">
+        {/* Mobile View */}
+        <div className="grid grid-cols-2 gap-4 md:hidden">
+          {solutions.map((solution) => {
+            const bgImage = PlaceHolderImages.find((img) => img.id === solution.imageId);
+            return (
+              <Link href="#" key={solution.id}>
+                <Card className="relative rounded-lg shadow-md overflow-hidden h-32 group">
+                   {bgImage && (
+                    <Image
+                      src={bgImage.imageUrl}
+                      alt={bgImage.description}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      data-ai-hint={bgImage.imageHint}
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/50"></div>
+                  <div className="relative z-10 flex flex-col justify-end h-full p-3 text-white">
+                     <solution.icon className="h-6 w-6 mb-2" />
+                    <h3 className="font-semibold text-sm leading-tight">{solution.title}</h3>
+                  </div>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
+        
+        {/* Desktop View */}
+        <div className="hidden md:block relative rounded-2xl shadow-lg overflow-hidden h-[65vh] bg-gray-800">
           <div className="absolute inset-0">
             {solutions.map((solution) => {
               const bgImage = PlaceHolderImages.find((img) => img.id === solution.imageId);
