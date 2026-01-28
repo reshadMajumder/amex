@@ -41,9 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',   
     'accounts', 
+    'accounts_auth',
 ]
 
 MIDDLEWARE = [
@@ -160,3 +162,5 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+
+AUTH_USER_MODEL = "accounts.AdminUser"

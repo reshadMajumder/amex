@@ -1,6 +1,8 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from .manager import UserManager, AdminUserManager
+
 
 class Account(models.Model):
     class AccountType(models.TextChoices):
@@ -32,6 +34,9 @@ class Account(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.name} ({self.email})"
 
 
 
@@ -62,6 +67,9 @@ class CorporateProfile(models.Model):
     verified_at = models.DateTimeField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.company_name
 
 class CorporateContactPersonsInfo(models.Model):
     '''
@@ -83,32 +91,35 @@ class CorporateContactPersonsInfo(models.Model):
     designation = models.CharField(max_length=100)
 
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.name} ({self.designation})"
 
 
-class User(AbstractBaseUser, PermissionsMixin):
-    """
+
+class User(AbstractBaseUser):
+    '''
     Docstring for User
-    Represents a user associated with an account.
-    Inherits from AbstractBaseUser and PermissionsMixin to leverage Django's
-    built-in authentication and permission features.
-    ---this contains users who can log in to the system and perform actions based on their roles.---
-    """
+    holds the end users info for auth and profile.
+    Inherits from AbstractBaseUser to leverage Django's built-in authentication features.
 
+    '''
+    
     class Role(models.TextChoices):
-        OWNER = "OWNER", "Owner"
-        ADMIN = "ADMIN", "Admin"
-        STAFF = "STAFF", "Staff"
-
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+        OWNER = "OWNER"
+        ADMIN = "ADMIN"
+        STAFF = "STAFF"
 
     account = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
-        related_name="users"
+        related_name="users",
+        null=True,
+        blank=True
     )
 
-    name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
+    name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
 
     role = models.CharField(max_length=20, choices=Role.choices)
@@ -119,30 +130,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     created_at = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
-    
-    groups = models.ManyToManyField(
-        'auth.Group',
-        verbose_name='groups',
-        blank=True,
-        help_text='The groups this user belongs to.',
-        related_name='account_users',
-        related_query_name='account_user',
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        verbose_name='user permissions',
-        blank=True,
-        help_text='Specific permissions for this user.',
-        related_name='account_users',
-        related_query_name='account_user',
-    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    def __str__(self):
-        return self.email
+    objects = UserManager()
 
+    def __str__(self):
+        return f'{self.email}-{self.role}'
 
 class AdminUser(AbstractBaseUser, PermissionsMixin):
 
@@ -164,9 +159,9 @@ class AdminUser(AbstractBaseUser, PermissionsMixin):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True, default='')
 
-    role = models.CharField(max_length=30, choices=Role.choices)
+    role = models.CharField(max_length=30, choices=Role.choices, default=Role.SUPER_ADMIN)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
@@ -192,3 +187,9 @@ class AdminUser(AbstractBaseUser, PermissionsMixin):
     )
 
     USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+    
+    objects = AdminUserManager()
+    
+    def __str__(self):
+        return self.email
