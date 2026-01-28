@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-fs*dyw$v+jn+$f_os2j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =     os.getenv('DJANGO_DEBUG', 'True') == 'True'  
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -154,9 +154,9 @@ SIMPLE_JWT = {
 
 
 CSRF_TRUSTED_ORIGINS = [
-    '*'
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
     ]
 
-CORS_ALLOWED_ORIGINS = [
-    '*'
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
