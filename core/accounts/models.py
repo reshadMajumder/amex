@@ -121,6 +121,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
+    password = models.CharField(max_length=128)
 
     role = models.CharField(max_length=20, choices=Role.choices)
     is_primary_contact = models.BooleanField(default=False)
