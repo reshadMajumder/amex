@@ -8,6 +8,7 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ['id', 'account_type','billing_type','name','email','phone','credit_limit','current_outstanding','status','created_at', 'updated_at']
+        
 
 
 class CorporateProfileSerializer(serializers.ModelSerializer):
@@ -23,4 +24,4 @@ class CorporateContactPersonsInfoSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'name', 'phone', 'role', 'is_primary_contact', 'email_verified', 'is_active', 'created_at', 'last_login']
+        fields = ['id','account' ,'email', 'name', 'phone', 'role', 'is_primary_contact', 'email_verified', 'is_active', 'created_at', 'last_login']

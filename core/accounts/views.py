@@ -16,3 +16,38 @@ from rest_framework.response import Response
 
 
 
+
+
+class AccountsView(APIView):
+    '''
+    create company accounts,
+    get company accounts list
+    get the details of company
+
+    '''
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser, IsSuperAdminUser]
+
+    def get(self, request,id=None):
+        try:
+            if id:
+                user = User.objects.get(id=id)
+                serializer = UserSerializer(user)
+                return Response({'Account': serializer.data}, status=200)
+            else:
+                users = User.objects.all()
+                serializer = UserSerializer(users, many=True)
+                return Response({'Accounts': serializer.data}, status=200)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
+        
+    def post(self, request):
+        try:
+            data = request.data
+            serializer = UserSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': 'User Account created successfully', 'Account': serializer.data}, status=201)
+            return Response({'errors': serializer.errors}, status=400)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
