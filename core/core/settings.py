@@ -163,4 +163,4 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-AUTH_USER_MODEL = "accounts.AdminUser"
+AUTH_USER_MODEL = "accounts_auth.AdminUser"

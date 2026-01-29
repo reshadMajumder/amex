@@ -1,4 +1,4 @@
-from accounts.models import AdminUser
+from accounts_auth.models import AdminUser
 from rest_framework.permissions import BasePermission
 class IsAdminUser(BasePermission):
     """

@@ -1,7 +1,7 @@
 
 # serializers
 from rest_framework import serializers
-from .models import User, AdminUser, Account, CorporateProfile, CorporateContactPersonsInfo
+from .models import User, Account, CorporateProfile, CorporateContactPersonsInfo
 
 
 class AccountSerializer(serializers.ModelSerializer):

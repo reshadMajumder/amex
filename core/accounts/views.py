@@ -18,7 +18,7 @@ from rest_framework.response import Response
 
 
 
-class AccountsView(APIView):
+class UserAccountsView(APIView):
     '''
     create company accounts,
     get company accounts list

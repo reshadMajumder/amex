@@ -10,7 +10,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from accounts.models import AdminUser
+from accounts_auth.models import AdminUser
 
 
 class AdminLoginAPIView(APIView):
