@@ -51,3 +51,25 @@ class UserAccountsView(APIView):
             return Response({'errors': serializer.errors}, status=400)
         except Exception as e:
             return Response({'error': str(e)}, status=500)
+        
+
+
+    def put(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            data = request.data
+            serializer = UserSerializer(user, data=data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': 'User Account updated successfully', 'Account': serializer.data}, status=200)
+            return Response({'errors': serializer.errors}, status=400)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
+    def delete(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            user.delete()
+            return Response({'message': 'User Account deleted successfully'}, status=200)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
+        
